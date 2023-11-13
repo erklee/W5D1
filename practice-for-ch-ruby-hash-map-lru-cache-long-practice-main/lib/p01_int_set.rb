@@ -1,19 +1,35 @@
 class MaxIntSet
+  attr_reader :max, :store
+  attr_writer :store
   def initialize(max)
+    @store = Array.new(max) {false}
+    @max = max
+    
   end
 
+  
   def insert(num)
+    if num < 0 || num > max
+      raise "Out of bounds"
+    else
+      @store[num] = true 
+    end
   end
 
   def remove(num)
+    @store.delete_at(num)
+
   end
 
-  def include?(num)
+  def include?(num) #num is an index
+    # insert(num)
+    @store[num]
   end
 
   private
 
   def is_valid?(num)
+
   end
 
   def validate!(num)
@@ -21,17 +37,25 @@ class MaxIntSet
 end
 
 class IntSet
+  attr_accessor :num_buckets
+  attr_reader :store
   def initialize(num_buckets = 20)
     @store = Array.new(num_buckets) { Array.new }
   end
 
   def insert(num)
+    if num > 0 || num > num_buckets
+      num_buckets == num
+    end
+    @store[num] = num
   end
 
   def remove(num)
+    @store.delete_at(num)
   end
 
   def include?(num)
+    @store[num] == num
   end
 
   private
@@ -46,7 +70,8 @@ class IntSet
 end
 
 class ResizingIntSet
-  attr_reader :count
+  attr_accessor :num_buckets
+  attr_reader :store, :count
 
   def initialize(num_buckets = 20)
     @store = Array.new(num_buckets) { Array.new }
@@ -54,6 +79,10 @@ class ResizingIntSet
   end
 
   def insert(num)
+    if num > 0 || num > num_buckets
+      num_buckets == num
+    end
+    @count = num
   end
 
   def remove(num)
